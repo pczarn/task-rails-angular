@@ -6,9 +6,9 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-
-<%= yield %>
-
+<body ng-app="assignment">
+  <div class="container" ng-controller="Main">
+    <%= yield %>
+  </div>
 </body>
 </html>

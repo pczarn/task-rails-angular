@@ -14,3 +14,32 @@
 //= require jquery_ujs
 //= require angular
 //= require_tree .
+
+angular.module('assignment', ['ui.router'])
+    .factory('orders', [
+        function() {
+            var svc = {
+                orders: [{name: 'x', added: new Date()}]
+            };
+
+            return svc;
+        }
+    ]);
+
+angular.module('assignment')
+    .controller('Main', [
+        '$scope',
+        'orders',
+        function($scope, svc) {
+            $scope.test = 'first test.';
+            $scope.addOrder = function() {
+                if(!$scope.name || $scope.name === '') {
+                    return;
+                }
+                $scope.orders.push({name: $scope.name, added: new Date()});
+                $scope.name = '';
+            };
+            $scope.orders = svc.orders;
+
+        }
+    ]);

@@ -9,3 +9,11 @@
 
 <h2>Delivered orders</h2>
 <%= render partial: 'active', locals: { orders: @delivered } %>
+
+<div ng-repeat="order in orders | orderBy: added">
+  {{order.name}}
+</div>
+<form ng-submit="addOrder()">
+  <input type="text" ng-model="name">
+  <button type="submit">Add order</button>
+</form>

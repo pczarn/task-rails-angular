@@ -1,4 +1,4 @@
-<%= form_for(@order) do |f| %>
+<%= form_for(@order, id: 'new_list', html: {'ng-submit': 'createOrder(name)'}) do |f| %>
   <% if @order.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
@@ -13,9 +13,9 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: 'form-control', autofocus: :autofocus, 'ng-model': :name %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'btn btn-primary' %>
   </div>
 <% end %>
