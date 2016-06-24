@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   def home
-    @active = Order.where(status: :active)
+    @active = Order.active
     @finalized = Order.where(status: [:finalized, :ordered])
-    @delivered = Order.where(status: :delivered)
+    @delivered = Order.delivered
   end
 end

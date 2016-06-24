@@ -1,5 +1,9 @@
 <h1>Root page</h1>
 <h2>Active orders</h2>
-  <% render 'active', locals: { orders: @active } %>
+<%= render partial: 'active', locals: { orders: @active } %>
+
 <h2>Finalized orders</h2>
+<%= render partial: 'active', locals: { orders: @finalized } %>
+
 <h2>Delivered orders</h2>
+<%= render partial: 'active', locals: { orders: @delivered } %>
