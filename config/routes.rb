@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
-  resources :meals
   resources :users
-  resources :orders
+  # meals within orders
+  resources :orders do
+    resources :meals
+
+    member do
+      post 'finalize'
+      post 'status_ordered'
+      post 'status_delivered'
+    end
+  end
   use_doorkeeper
 
   root to: 'pages#home'

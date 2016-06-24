@@ -2,6 +2,8 @@
 <h2>Active orders</h2>
 <%= render partial: 'active', locals: { orders: @active } %>
 
+<%= render 'orders/form' %>
+
 <h2>Finalized orders</h2>
 <%= render partial: 'active', locals: { orders: @finalized } %>
 

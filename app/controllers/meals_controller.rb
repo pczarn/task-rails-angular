@@ -24,11 +24,12 @@ class MealsController < ApplicationController
   # POST /meals
   # POST /meals.json
   def create
-    @meal = Meal.new(meal_params)
+    @order = Order.find(params[:order_id])
+    @meal = @order.meals.build(meal_params)
 
     respond_to do |format|
       if @meal.save
-        format.html { redirect_to @meal, notice: 'Meal was successfully created.' }
+        format.html { redirect_to order_meal_url(@order, @meal), notice: 'Meal was successfully created.' }
         format.json { render :show, status: :created, location: @meal }
       else
         format.html { render :new }
@@ -64,6 +65,7 @@ class MealsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_meal
+      @order = Order.find(params[:order_id])
       @meal = Meal.find(params[:id])
     end
 
