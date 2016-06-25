@@ -1,24 +1,32 @@
-<nav>
-  <a class="btn ng-scope" ng-class="{active:$index==activeTab}" ng-repeat="state in states track by $index" ng-click="setTab($index)">
-    {{state}}
-  </a>
-</nav>
+<h2>Orders</h2>
 
-<div ng-repeat="order in orders | orderBy: '-added'">
-  {{order.name}}
-  <ul>
-    <li ng-repeat="meal in order.meals">
-      {{meal.name}}:
-      {{meal.price | currency : ''}} zł
-    </li>
-  </ul>
-  <form ng-submit="addMeal(order)">
-    <input type="text" ng-model="order.newMeal.name">
-    <input type="number" step="0.01" ng-model="order.newMeal.price">
-    <button type="submit" class="btn">Add meal</button>
-  </form>
+<div class="panel-group">
+  <div ng-repeat="order in orders | orderBy: '-added'" class="panel panel-default">
+    <a class="list-group-item" data-toggle="collapse" href="#collapse{{$index}}">
+      <a ng-if="activeTab==0" ng-click="finalize($index)" class="btn pull-right">
+        Finalize
+      </a>
+    </a>
+
+    <div class="panel-collapse collapse" id="collapse{{$index}}">
+      <div class="panel-body">
+        <div ng-repeat="meal in order.meals" class="list-group-item">
+          {{meal.name}}:
+          {{meal.price | currency : ''}} zł
+        </div>
+        <div class="list-group-item">
+          <form ng-submit="addMeal(order)" ng-if="activeTab==0">
+            <input type="text" ng-model="order.newMeal.name">
+            <input type="number" step="0.01" ng-model="order.newMeal.price">
+            <button type="submit" class="btn">Add meal</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<form ng-submit="addOrder()">
+
+<form ng-submit="addOrder()" ng-if="activeTab==0">
   <input type="text" ng-model="newOrder.name">
   <button type="submit" class="btn">Add order</button>
 </form>

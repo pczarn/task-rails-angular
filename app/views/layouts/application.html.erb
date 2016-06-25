@@ -6,9 +6,22 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-app="assignment">
-  <div class="container" ng-controller="Main">
-    <%= yield %>
+<body ng-app="assignment" ng-controller="Main">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav nav-tabs">
+          <li ng-repeat="state in states track by $index" ng-class="{active:$index==activeTab}" class="presentation">
+            <a class="btn ng-scope" ng-click="setTab($index)">
+              {{state}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container">
+      <%= yield %>
+    </div>
   </div>
 </body>
 </html>
