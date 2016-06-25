@@ -41,7 +41,6 @@ angular.module('assignment')
         '$scope',
         'orders',
         function($scope, svc) {
-            $scope.test = 'first test.';
             $scope.states = ['Active', 'Finalized', 'Delivered'];
             $scope.setTab = function(idx) {
                 if($scope.activeTab != idx) {
