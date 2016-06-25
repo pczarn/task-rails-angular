@@ -1,3 +1,9 @@
+<nav>
+  <a class="btn ng-scope" ng-class="{active:$index==activeTab}" ng-repeat="state in states track by $index" ng-click="setTab($index)">
+    {{state}}
+  </a>
+</nav>
+
 <div ng-repeat="order in orders | orderBy: '-added'">
   {{order.name}}
   <ul>

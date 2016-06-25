@@ -20,11 +20,16 @@ angular.module('assignment', ['ui.router'])
     .factory('orders', [
         function() {
             var svc = {
-                orders: [{
-                    name: 'x',
-                    meals: [],
-                    added: new Date()
-                }]
+                ordersByState: [
+                    // active
+                    [{
+                        name: 'x',
+                        meals: [],
+                        added: new Date()
+                    }],
+                    [],
+                    []
+                ]
             };
 
             return svc;
@@ -37,6 +42,14 @@ angular.module('assignment')
         'orders',
         function($scope, svc) {
             $scope.test = 'first test.';
+            $scope.states = ['Active', 'Finalized', 'Delivered'];
+            $scope.setTab = function(idx) {
+                if($scope.activeTab != idx) {
+                    // shared reference.
+                    $scope.orders = $scope.ordersByState[idx];
+                }
+                $scope.activeTab = idx;
+            };
             $scope.newOrder = {};
             $scope.addOrder = function() {
                 if(!$scope.newOrder.name || $scope.newOrder.name === '') {
@@ -57,6 +70,8 @@ angular.module('assignment')
                 order.meals.push(order.newMeal);
                 order.newMeal = {};
             };
-            $scope.orders = svc.orders;
+            // don't clone. it's a shared reference.
+            $scope.ordersByState = svc.ordersByState;
+            $scope.setTab(0);
         }
     ]);
