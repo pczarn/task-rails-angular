@@ -1,19 +1,18 @@
-<h1>Root page</h1>
-<h2>Active orders</h2>
-<%= render partial: 'active', locals: { orders: @active } %>
-
-<%= render 'orders/form' %>
-
-<h2>Finalized orders</h2>
-<%= render partial: 'active', locals: { orders: @finalized } %>
-
-<h2>Delivered orders</h2>
-<%= render partial: 'active', locals: { orders: @delivered } %>
-
-<div ng-repeat="order in orders | orderBy: added">
+<div ng-repeat="order in orders | orderBy: '-added'">
   {{order.name}}
+  <ul>
+    <li ng-repeat="meal in order.meals">
+      {{meal.name}}:
+      {{meal.price}} zł
+    </li>
+  </ul>
+  <form ng-submit="addMeal(order)">
+    <input type="text" ng-model="order.newMeal.name">
+    <input type="number" ng-model="order.newMeal.price">
+    <button type="submit" class="btn">Add meal</button>
+  </form>
 </div>
 <form ng-submit="addOrder()">
-  <input type="text" ng-model="name">
-  <button type="submit">Add order</button>
+  <input type="text" ng-model="newOrder.name">
+  <button type="submit" class="btn">Add order</button>
 </form>

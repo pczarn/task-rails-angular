@@ -13,13 +13,18 @@
 //= require jquery
 //= require jquery_ujs
 //= require angular
+//= require angular-ui-router
 //= require_tree .
 
 angular.module('assignment', ['ui.router'])
     .factory('orders', [
         function() {
             var svc = {
-                orders: [{name: 'x', added: new Date()}]
+                orders: [{
+                    name: 'x',
+                    meals: [],
+                    added: new Date()
+                }]
             };
 
             return svc;
@@ -32,14 +37,26 @@ angular.module('assignment')
         'orders',
         function($scope, svc) {
             $scope.test = 'first test.';
+            $scope.newOrder = {};
             $scope.addOrder = function() {
-                if(!$scope.name || $scope.name === '') {
+                if(!$scope.newOrder.name || $scope.newOrder.name === '') {
                     return;
                 }
-                $scope.orders.push({name: $scope.name, added: new Date()});
-                $scope.name = '';
+                $scope.orders.push({
+                    name: $scope.newOrder.name,
+                    meals: [],
+                    added: new Date(),
+                    newMeal: {}
+                });
+                $scope.newOrder = {};
+            };
+            $scope.addMeal = function(order) {
+                if(!order.newMeal.name || order.newMeal.name === '') {
+                    return;
+                }
+                order.meals.push(order.newMeal);
+                order.newMeal = {};
             };
             $scope.orders = svc.orders;
-
         }
     ]);
