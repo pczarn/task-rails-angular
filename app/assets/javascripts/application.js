@@ -31,7 +31,8 @@ angular.module('assignment', ['ui.router', 'angularMoment'])
                     [{
                         name: 'x',
                         meals: [],
-                        added: new Date()
+                        added: new Date(),
+                        show: true
                     }],
                     [],
                     []
@@ -64,21 +65,21 @@ angular.module('assignment')
                     name: $scope.newOrder.name,
                     meals: [],
                     added: new Date(),
-                    newMeal: {}
+                    newMeal: {},
+                    show: true
                 });
                 $scope.newOrder = {};
             };
-            $scope.finalize = function(orderIdx) {
-                var order = $scope.orders[orderIdx];
+            $scope.finalize = function(order) {
+                var orderIdx = $scope.orders.indexOf(order);
                 $scope.ordersByState[1].push(order);
                 $scope.orders.splice(orderIdx, 1);
             };
-            $scope.ordered = function(orderIdx) {
-                var order = $scope.orders[orderIdx];
+            $scope.ordered = function(order) {
                 order.ordered = true;
             };
-            $scope.delivered = function(orderIdx) {
-                var order = $scope.orders[orderIdx];
+            $scope.delivered = function(order) {
+                var orderIdx = $scope.orders.indexOf(order);
                 $scope.ordersByState[2].push(order);
                 $scope.orders.splice(orderIdx, 1);
             };

@@ -2,34 +2,41 @@
 
 <div class="panel-group">
   <div ng-repeat="order in orders | orderBy: '-added'" class="panel panel-default">
-    <a class="list-group-item clearfix" data-toggle="collapse" href="#collapse{{$index}}">
+    <header ng-click="order.show=!order.show" class="panel-heading clearfix">
       <h5 class="pull-left">
-        {{order.name}}</b>
+        <b>{{order.name}}</b>
         created <time am-time-ago="order.added"></time>
       </h5>
-      <span ng-if="activeTab==0" ng-click="finalize($index)" class="btn btn-default pull-right">
+      <button ng-if="activeTab==0" ng-click="finalize(order)" class="btn btn-default pull-right">
         Finalize
-      </span>
+      </button>
       <div ng-if="activeTab==1" ng-switch="order.ordered" class="pull-right">
-        <span ng-switch-default ng-click="ordered($index)" class="btn btn-default">Mark as ordered</span>
+        <button ng-switch-default ng-click="ordered(order)" class="btn btn-default">Mark as ordered</button>
         <div ng-switch-when="true" class="underline">
           Ordered
-          <span ng-click="delivered($index)" class="btn">Mark as delivered</span>
+          <button ng-click="delivered(order)" class="btn btn-default">Mark as delivered</button>
         </div>
       </div>
-    </a>
+    </header>
 
-    <div class="panel-collapse collapse in" id="collapse{{$index}}">
+    <div ng-class="{in:order.show}" class="panel-collapse collapse">
       <div class="panel-body">
         <div ng-repeat="meal in order.meals" class="list-group-item">
           {{meal.name}}:
           {{meal.price | currency : ''}} zł
         </div>
         <div class="list-group-item">
-          <form ng-submit="addMeal(order)" ng-if="activeTab==0">
-            <input type="text" ng-model="order.newMeal.name" placeholder="Meal name">
-            <input type="number" step="0.01" ng-model="order.newMeal.price" placeholder="Meal price">
-            <button type="submit" class="btn">Add meal</button>
+          <form ng-submit="addMeal(order)" ng-if="activeTab==0" class="form-inline">
+            <div class="input-group">
+              <span class="input-group-addon">Meal name</span>
+              <input type="text" ng-model="order.newMeal.name" required class="form-control">
+              <span class="input-group-addon">Price</span>
+              <input type="number" ng-model="order.newMeal.price" step="0.01" required class="form-control">
+              <span class="input-group-addon">zł</span>
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-default">Add meal</button>
+              </span>
+            </div>
           </form>
         </div>
       </div>
@@ -37,7 +44,11 @@
   </div>
 </div>
 
-<form ng-submit="addOrder()" ng-if="activeTab==0">
-  <input type="text" ng-model="newOrder.name">
-  <button type="submit" class="btn">Add order</button>
+<form ng-submit="addOrder()" ng-if="activeTab==0" class="form-inline">
+  <div class="input-group">
+    <input type="text" ng-model="newOrder.name" class="form-control" placeholder="Restaurant name">
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-default">New order</button>
+    </span>
+  </div>
 </form>
