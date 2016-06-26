@@ -32,7 +32,8 @@ angular.module('assignment', ['ui.router', 'angularMoment'])
                         name: 'x',
                         meals: [],
                         added: new Date(),
-                        show: true
+                        show: true,
+                        state: 'finalized'
                     }],
                     [],
                     []
@@ -48,7 +49,7 @@ angular.module('assignment')
         '$scope',
         'orders',
         function($scope, svc) {
-            $scope.states = ['Active', 'Finalized', 'Delivered'];
+            $scope.states = ['Open', 'Archived'];
             $scope.setTab = function(idx) {
                 if($scope.activeTab != idx) {
                     // shared reference.
@@ -66,7 +67,8 @@ angular.module('assignment')
                     meals: [],
                     added: new Date(),
                     newMeal: {},
-                    show: true
+                    show: true,
+                    state: 'finalized'
                 });
                 $scope.newOrder = {};
             };
@@ -75,13 +77,23 @@ angular.module('assignment')
                 $scope.ordersByState[1].push(order);
                 $scope.orders.splice(orderIdx, 1);
             };
-            $scope.ordered = function(order) {
-                order.ordered = true;
+            $scope.setFinalized = function(order) {
+                order.state = 'finalized';
             };
-            $scope.delivered = function(order) {
-                var orderIdx = $scope.orders.indexOf(order);
-                $scope.ordersByState[2].push(order);
-                $scope.orders.splice(orderIdx, 1);
+            $scope.setOrdered = function(order) {
+                order.state = 'ordered';
+            };
+            $scope.setDelivered = function(order) {
+                order.state = 'delivered';
+            };
+            $scope.isFinalized = function(order) {
+                return order.state === 'finalized';
+            };
+            $scope.isOrdered = function(order) {
+                return order.state === 'ordered';
+            };
+            $scope.isDelivered = function(order) {
+                return order.state === 'delivered';
             };
             $scope.addMeal = function(order) {
                 if(!order.newMeal.name || order.newMeal.name === '') {
