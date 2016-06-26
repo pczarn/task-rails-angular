@@ -31,12 +31,14 @@
 
     <div ng-class="{in:order.show}" class="panel-collapse collapse">
       <div class="panel-body">
+        <!-- repeated meals in model -->
         <div ng-repeat="meal in order.meals" class="list-group-item">
           {{meal.name}}:
           {{meal.price | currency : ''}} zł
         </div>
-        <div class="list-group-item">
-          <form ng-submit="addMeal(order)" ng-if="activeTab==0" class="form-inline">
+        <!-- horizontal meal input group -->
+        <div ng-if="activeTab==0" class="list-group-item">
+          <form ng-submit="addMeal(order)" class="form-inline">
             <div class="input-group">
               <span class="input-group-addon">Meal name</span>
               <input type="text" ng-model="order.newMeal.name" required class="form-control">
@@ -55,10 +57,12 @@
 </div>
 
 <form ng-submit="addOrder()" ng-if="activeTab==0" class="form-inline">
-  <div class="input-group">
-    <input type="text" ng-model="newOrder.name" class="form-control" placeholder="Restaurant name">
-    <span class="input-group-btn">
-      <button type="submit" class="btn btn-default">New order</button>
-    </span>
+  <div class="form-group">
+    <div class="input-group">
+      <input type="text" ng-model="newOrder.name" class="form-control" placeholder="Restaurant name">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-default">New order</button>
+      </span>
+    </div>
   </div>
 </form>
