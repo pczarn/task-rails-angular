@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body ng-app="assignment" ng-controller="Main">
-  <div class="navbar navbar-fixed-top">
+  <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
         <ul class="nav nav-tabs">
@@ -19,9 +19,9 @@
         </ul>
       </div>
     </div>
-    <div class="container">
-      <%= yield %>
-    </div>
+  </div>
+  <div class="container">
+    <%= yield %>
   </div>
 </body>
 </html>
