@@ -4,7 +4,7 @@ class MealsController < ApplicationController
   # GET /meals
   # GET /meals.json
   def index
-    @meals = Meal.all
+    render json: Order.find(params[:order_id]).meals
   end
 
   # GET /meals/1
@@ -15,6 +15,7 @@ class MealsController < ApplicationController
   # GET /meals/new
   def new
     @meal = Meal.new
+    @order = Order.find(params[:order_id])
   end
 
   # GET /meals/1/edit
@@ -26,6 +27,7 @@ class MealsController < ApplicationController
   def create
     @order = Order.find(params[:order_id])
     @meal = @order.meals.build(meal_params)
+    @meal.user = current_user
 
     respond_to do |format|
       if @meal.save

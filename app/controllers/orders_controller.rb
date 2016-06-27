@@ -4,7 +4,9 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    # Respond with all orders in JSON.
+    # [{id: 1, meals: [{id: 1, user: {email: x}}]}, ...]
+    render json: Order.all, include: {meals: {include: {user: {only: :email}}}}
   end
 
   # GET /orders/1
