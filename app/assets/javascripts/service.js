@@ -2,27 +2,25 @@ var app = angular.module('assignment');
 
 app.factory('orders', [
     '$http',
-    function($http) {
-        //var svc = $resource('/orders', [], {"update": {"method": "PATCH"}});
+    'STATUSES',
+    function($http, STATUSES) {
         var svc = {
-            ordersByStatus: [
+            orders: [
                 // active
-                [{
+                {
                     name: 'x',
                     meals: [],
                     added: new Date(),
                     show: true,
-                    status: 'finalized'
-                }],
-                [],
-                []
+                    status: {id:'active', categoryId:0}
+                }
             ]
         };
         function toJson(order) {
             return {
                 name: order.name,
-                status: order.status,
-                finalized: order.added,
+                status: order.status.id,
+                created_at: order.added,
                 delivered: null
             };
         }
@@ -30,7 +28,7 @@ app.factory('orders', [
             return {
                 id: json.id,
                 name: json.name,
-                status: json.status,
+                status: STATUSES[json.status],
                 meals: [],
                 added: json.created_at,
                 show: true,
@@ -45,7 +43,7 @@ app.factory('orders', [
         svc.create = function(order) {
             return $http.post('/orders.json', toJson(order)).success(function(data) {
                 var order = fromJson(data);
-                svc.ordersByStatus[order.status == 'active'? 0 : 1].push(order);
+                svc.orders.push(order);
             });
         };
 

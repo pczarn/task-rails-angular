@@ -1,46 +1,46 @@
 var app = angular.module('assignment');
 
+app.constant('STATUSES', {
+    active: {id: 'active', name: 'Active', categoryId: 0},
+    finalized: {id: 'finalized', name: 'Finalized', categoryId: 1},
+    ordered: {id: 'ordered', name: 'Ordered', categoryId: 1},
+    delivered: {id: 'delivered', name: 'Delivered', categoryId: 1}
+});
+app.constant('CATEGORIES', [
+    {name: 'Open', defaultStatusId: 'active'},
+    {name: 'Archived', defaultStatusId: 'finalized'}
+]);
+
 app.controller('Main', [
     '$scope',
     'orders',
-    function($scope, svc) {
-        $scope.categories = ['Open', 'Archived'];
-        $scope.statuses = [
-            {id: 'active', name: 'Active'},
-            {id: 'finalized', name: 'Finalized'},
-            {id: 'ordered', name: 'Ordered'},
-            {id: 'delivered', name: 'Delivered'}
-        ];
+    'CATEGORIES',
+    'STATUSES',
+    function($scope, svc, CATEGORIES, STATUSES) {
+        $scope.category = function(elem) {
+            return elem.status.categoryId == $scope.activeTab;
+        };
         $scope.setTab = function(idx) {
-            if($scope.activeTab != idx) {
-                // shared reference.
-                $scope.orders = $scope.ordersByStatus[idx];
-            }
             $scope.activeTab = idx;
         };
-        $scope.newOrder = {};
         $scope.addOrder = function() {
             if(!$scope.newOrder.name || $scope.newOrder.name === '') {
                 return;
             }
+            var statusId = CATEGORIES[$scope.activeTab].defaultStatusId;
             svc.create({
                 name: $scope.newOrder.name,
                 meals: [],
                 added: new Date(),
-                status: $scope.activeTab == 0 ? 'active' : 'finalized'
+                status: STATUSES[statusId]
             });
             $scope.newOrder = {};
         };
-        $scope.finalize = function(order) {
-            var orderIdx = $scope.orders.indexOf(order);
-            $scope.ordersByStatus[1].push(order);
-            $scope.orders.splice(orderIdx, 1);
-        };
         $scope.setStatus = function(order, status) {
-            order.status = status.id;
+            order.status = status;
         };
         $scope.hasStatus = function(order, status) {
-            return order.status == status.id;
+            return order.status.id == status.id;
         };
         $scope.addMeal = function(order) {
             if(!order.newMeal.name || order.newMeal.name === '') {
@@ -49,8 +49,12 @@ app.controller('Main', [
             order.meals.push(order.newMeal);
             order.newMeal = {};
         };
+        $scope.categories = CATEGORIES;
+        $scope.statuses = STATUSES;
+        $scope.newOrder = {};
+        // Lists of orders.
         // don't clone. it's a shared reference.
-        $scope.ordersByStatus = svc.ordersByStatus;
+        $scope.orders = svc.orders;
         $scope.setTab(0);
     }
 ]);

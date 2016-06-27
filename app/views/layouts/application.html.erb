@@ -13,7 +13,7 @@
         <ul class="nav nav-tabs">
           <li ng-repeat="category in categories track by $index" ng-class="{active:$index==activeTab}" class="presentation">
             <a class="btn ng-scope" ng-click="setTab($index)">
-              {{category}}
+              {{category.name}}
             </a>
           </li>
         </ul>

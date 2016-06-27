@@ -1,5 +1,5 @@
 <div class="panel-group">
-  <div ng-repeat="order in orders | orderBy: '-added'" class="panel panel-default">
+  <div ng-repeat="order in orders | filter: category | orderBy: '-added'" class="panel panel-default">
     <header class="panel-heading clearfix">
       <h5 class="pull-left">
         <strong>{{order.name}}</strong>
@@ -7,7 +7,7 @@
       </h5>
       <!-- button for finalizing in tab 0 -->
       <div class="btn-toolbar pull-right" role="toolbar">
-        <button ng-if="activeTab==0" ng-click="finalize(order)" ng-disabled="order.meals.length==0" class="btn btn-default">
+        <button ng-if="activeTab==0" ng-click="setStatus(order,statuses['finalized'])" ng-disabled="order.meals.length==0" class="btn btn-default">
           Finalize
         </button>
         <!-- button group for state in tab 1 -->
