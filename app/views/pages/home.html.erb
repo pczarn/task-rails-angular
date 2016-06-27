@@ -12,9 +12,7 @@
         </button>
         <!-- button group for state in tab 1 -->
         <div ng-if="activeTab==1" class="btn-group">
-          <button ng-click="setFinalized(order)" ng-class="{'btn-primary':isFinalized(order)}" class="btn btn-default">Finalized</button>
-          <button ng-click="setOrdered(order)" ng-class="{'btn-primary':isOrdered(order)}" class="btn btn-default">Ordered</button>
-          <button ng-click="setDelivered(order)" ng-class="{'btn-primary':isDelivered(order)}" class="btn btn-default">Delivered</button>
+          <button ng-repeat="status in statuses" ng-click="setStatus(order,status)" ng-class="{'btn-primary':hasStatus(order,status)}" class="btn btn-default">{{status.name}}</button>
         </div>
         <div class="btn-group">
           <button ng-click="order.show=!order.show" class="btn btn-default">

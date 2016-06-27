@@ -4,11 +4,17 @@ app.controller('Main', [
     '$scope',
     'orders',
     function($scope, svc) {
-        $scope.states = ['Open', 'Archived'];
+        $scope.categories = ['Open', 'Archived'];
+        $scope.statuses = [
+            {id: 'active', name: 'Active'},
+            {id: 'finalized', name: 'Finalized'},
+            {id: 'ordered', name: 'Ordered'},
+            {id: 'delivered', name: 'Delivered'}
+        ];
         $scope.setTab = function(idx) {
             if($scope.activeTab != idx) {
                 // shared reference.
-                $scope.orders = $scope.ordersByState[idx];
+                $scope.orders = $scope.ordersByStatus[idx];
             }
             $scope.activeTab = idx;
         };
@@ -17,38 +23,24 @@ app.controller('Main', [
             if(!$scope.newOrder.name || $scope.newOrder.name === '') {
                 return;
             }
-            $scope.orders.push({
+            svc.create({
                 name: $scope.newOrder.name,
                 meals: [],
                 added: new Date(),
-                newMeal: {},
-                show: true,
-                state: 'finalized'
+                status: $scope.activeTab == 0 ? 'active' : 'finalized'
             });
             $scope.newOrder = {};
         };
         $scope.finalize = function(order) {
             var orderIdx = $scope.orders.indexOf(order);
-            $scope.ordersByState[1].push(order);
+            $scope.ordersByStatus[1].push(order);
             $scope.orders.splice(orderIdx, 1);
         };
-        $scope.setFinalized = function(order) {
-            order.state = 'finalized';
+        $scope.setStatus = function(order, status) {
+            order.status = status.id;
         };
-        $scope.setOrdered = function(order) {
-            order.state = 'ordered';
-        };
-        $scope.setDelivered = function(order) {
-            order.state = 'delivered';
-        };
-        $scope.isFinalized = function(order) {
-            return order.state === 'finalized';
-        };
-        $scope.isOrdered = function(order) {
-            return order.state === 'ordered';
-        };
-        $scope.isDelivered = function(order) {
-            return order.state === 'delivered';
+        $scope.hasStatus = function(order, status) {
+            return order.status == status.id;
         };
         $scope.addMeal = function(order) {
             if(!order.newMeal.name || order.newMeal.name === '') {
@@ -58,7 +50,7 @@ app.controller('Main', [
             order.newMeal = {};
         };
         // don't clone. it's a shared reference.
-        $scope.ordersByState = svc.ordersByState;
+        $scope.ordersByStatus = svc.ordersByStatus;
         $scope.setTab(0);
     }
 ]);

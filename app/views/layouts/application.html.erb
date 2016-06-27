@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Assignment</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 <body ng-app="assignment" ng-controller="Main">
@@ -11,9 +11,9 @@
     <div class="navbar-inner">
       <div class="container">
         <ul class="nav nav-tabs">
-          <li ng-repeat="state in states track by $index" ng-class="{active:$index==activeTab}" class="presentation">
+          <li ng-repeat="category in categories track by $index" ng-class="{active:$index==activeTab}" class="presentation">
             <a class="btn ng-scope" ng-click="setTab($index)">
-              {{state}}
+              {{category}}
             </a>
           </li>
         </ul>

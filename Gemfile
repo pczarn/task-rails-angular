@@ -60,3 +60,5 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
+
+gem 'angular_rails_csrf'
