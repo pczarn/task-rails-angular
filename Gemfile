@@ -55,3 +55,8 @@ gem 'doorkeeper'
 
 # For angular route templates
 gem 'angular-rails-templates'
+
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-github'
