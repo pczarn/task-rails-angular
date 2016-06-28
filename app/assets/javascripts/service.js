@@ -2,9 +2,8 @@ var app = angular.module('assignment');
 
 app.factory('orders', [
     '$http',
-    '$q',
     'STATUSES',
-    function($http, $q, STATUSES) {
+    function($http, STATUSES) {
         // define functions
         function toJson(order) {
             return {
@@ -40,28 +39,22 @@ app.factory('orders', [
             })
         };
         svc.createOrder = function(order) {
-            var d = $q.defer();
             $http.post('/orders.json', toJson(order)).success(function(data) {
                 var order = fromJson(data);
                 svc.orders.push(order);
-                d.resolve(order);
             })
             .error(function() {
-                d.reject();
+                svc.orders = [];
             });
-            return d.promise;
         };
         svc.createMeal = function(order, meal, currentUser) {
-            var d = $q.defer();
             $http.post('/orders/' + order.id + '/meals.json', meal).success(function(meal) {
                 meal.user = currentUser;
                 order.meals.push(meal);
-                d.resolve(meal);
             })
             .error(function() {
-                d.reject();
+                order.meals = [];
             });
-            return d.promise;
         };
         svc.updateStatus = function(order) {
             $http.put('/orders/' + order.id + '.json', {status: order.status.id});
