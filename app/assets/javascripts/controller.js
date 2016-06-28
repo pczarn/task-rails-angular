@@ -2,10 +2,11 @@ var app = angular.module('assignment');
 
 app.controller('Main', [
     '$scope',
+    '$timeout',
     'orders',
     'CATEGORIES',
     'STATUSES',
-    function($scope, svc, CATEGORIES, STATUSES) {
+    function($scope, $timeout, svc, CATEGORIES, STATUSES) {
         $scope.category = function(elem) {
             return elem.status.categoryId == $scope.activeTab;
         };
@@ -15,6 +16,14 @@ app.controller('Main', [
         $scope.addOrder = function() {
             if(!$scope.newOrder.name || $scope.newOrder.name === '') {
                 return;
+            }
+            for(var i=0; i<$scope.orders.length; i++) {
+                if($scope.orders[i].name == $scope.newOrder.name) {
+                    // duplicate name
+                    $scope.newOrderError = true;
+                    $timeout(function () { $scope.newOrderError = false; }, 4000);
+                    return;
+                }
             }
             var statusId = CATEGORIES[$scope.activeTab].defaultStatusId;
             svc.create({
@@ -35,6 +44,13 @@ app.controller('Main', [
         $scope.addMeal = function(order) {
             if(!order.newMeal.name || order.newMeal.name === '') {
                 return;
+            }
+            for(var i=0; i<order.meals.length; i++) {
+                if(order.meals[i].user.email == $scope.currentUser.email) {
+                    order.error = true;
+                    $timeout(function () { order.error = false; }, 4000);
+                    return;
+                }
             }
             svc.createMeal(order, order.newMeal, $scope.currentUser);
             order.newMeal = {};
