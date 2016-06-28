@@ -9,7 +9,10 @@ app.factory('orders', [
                 // active
                 {
                     name: 'x',
-                    meals: [],
+                    meals: [{
+                        name: 'y',
+                        price: 1.1
+                    }],
                     added: new Date(),
                     show: true,
                     status: {id:'active', categoryId:0}
@@ -21,23 +24,26 @@ app.factory('orders', [
                 name: order.name,
                 status: order.status.id,
                 created_at: order.added,
-                delivered: null
             };
         }
         function fromJson(json) {
-            return {
+            var order = {
                 id: json.id,
                 name: json.name,
                 status: STATUSES[json.status],
-                meals: [],
+                meals: angular.copy(json['meals']) || [],
                 added: json.created_at,
                 show: true,
+                canAddMeal: true,
                 newMeal: {}
             };
+            return order;
         }
         svc.getAll = function() {
             return $http.get('/orders.json').success(function(data) {
-                angular.copy(fromJson(data), svc.orders);
+                for(var i=0; i<data.length; i++) {
+                    svc.orders.push(fromJson(data[i]));
+                }
             })
         };
         svc.create = function(order) {
@@ -45,6 +51,15 @@ app.factory('orders', [
                 var order = fromJson(data);
                 svc.orders.push(order);
             });
+        };
+        svc.createMeal = function(order, meal, user) {
+            return $http.post('/orders/' + order.id + '/meals.json', meal).success(function(data) {
+                data.user = user;
+                order.meals.push(data);
+            });
+        };
+        svc.updateStatus = function(order) {
+            $http.put('/orders/' + order.id + '.json', {status: order.status.id});
         };
 
         return svc;

@@ -1,5 +1,5 @@
 class MealsController < ApplicationController
-  before_action :set_meal, only: [:show, :edit, :update, :destroy]
+  before_action :set_order_and_meal, only: [:show, :edit, :update, :destroy]
 
   # GET /meals
   # GET /meals.json
@@ -32,7 +32,7 @@ class MealsController < ApplicationController
     respond_to do |format|
       if @meal.save
         format.html { redirect_to order_meal_url(@order, @meal), notice: 'Meal was successfully created.' }
-        format.json { render :show, status: :created, location: @meal }
+        format.json { render :show, status: :created, location: [@order, @meal] }
       else
         format.html { render :new }
         format.json { render json: @meal.errors, status: :unprocessable_entity }
@@ -46,7 +46,7 @@ class MealsController < ApplicationController
     respond_to do |format|
       if @meal.update(meal_params)
         format.html { redirect_to @meal, notice: 'Meal was successfully updated.' }
-        format.json { render :show, status: :ok, location: @meal }
+        format.json { render :show, status: :ok, location: [@order, @meal] }
       else
         format.html { render :edit }
         format.json { render json: @meal.errors, status: :unprocessable_entity }
@@ -66,7 +66,7 @@ class MealsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_meal
+    def set_order_and_meal
       @order = Order.find(params[:order_id])
       @meal = Meal.find(params[:id])
     end

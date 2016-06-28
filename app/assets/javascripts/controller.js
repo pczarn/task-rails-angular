@@ -27,6 +27,7 @@ app.controller('Main', [
         };
         $scope.setStatus = function(order, status) {
             order.status = status;
+            svc.updateStatus(order);
         };
         $scope.hasStatus = function(order, status) {
             return order.status.id == status.id;
@@ -35,7 +36,7 @@ app.controller('Main', [
             if(!order.newMeal.name || order.newMeal.name === '') {
                 return;
             }
-            order.meals.push(order.newMeal);
+            svc.createMeal(order, order.newMeal, $scope.currentUser);
             order.newMeal = {};
         };
         $scope.categories = CATEGORIES;
@@ -47,5 +48,7 @@ app.controller('Main', [
         $scope.setTab(0);
         // Defined globally in layout
         $scope.currentUser = {email: window.appCurrentUserEmail};
+        // Load all orders.
+        svc.getAll();
     }
 ]);
