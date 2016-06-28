@@ -2,12 +2,12 @@
 
 one:
   name: MyString
-  status: 
+  status: 0
   finalized: 2016-06-24 10:31:36
   delivered: 2016-06-24 10:31:36
 
 two:
   name: MyString
-  status: 
+  status: 1
   finalized: 2016-06-24 10:31:36
   delivered: 2016-06-24 10:31:36

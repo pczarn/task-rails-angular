@@ -2,12 +2,12 @@
 
 one:
   name: MyString
-  price: 
-  order_id: 
-  user_id: 
+  price: 2
+  order_id: 1
+  user_id: 1
 
 two:
   name: MyString
-  price: 
-  order_id: 
-  user_id: 
+  price: 3
+  order_id: 1
+  user_id: 1

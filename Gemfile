@@ -30,9 +30,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+group :test do
+  gem 'shoulda-matchers', '3.0.1'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'factory_girl_rails', '~> 4.5'
 end
 
 group :development do
@@ -53,14 +61,16 @@ gem 'bower-rails'
 
 gem 'doorkeeper'
 
+gem 'angularjs-rails'
+gem 'angular_rails_csrf'
 # For angular route templates
 gem 'angular-rails-templates'
+
+gem 'jasmine'
 
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
-
-gem 'angular_rails_csrf'
 
 gem 'oj'
