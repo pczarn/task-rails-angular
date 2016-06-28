@@ -52,9 +52,9 @@ app.factory('orders', [
                 svc.orders.push(order);
             });
         };
-        svc.createMeal = function(order, meal, user) {
+        svc.createMeal = function(order, meal, currentUser) {
             return $http.post('/orders/' + order.id + '/meals.json', meal).success(function(data) {
-                data.user = user;
+                data.user = currentUser;
                 order.meals.push(data);
             });
         };

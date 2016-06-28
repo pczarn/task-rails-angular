@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require angular
 //= require angular-ui-router
+//= require angular-rails-templates
 //= require moment/moment
 //= require angular-moment/angular-moment
 //= require bootstrap-sass-official/assets/javascripts/bootstrap

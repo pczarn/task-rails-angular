@@ -1,0 +1,21 @@
+<div class="panel-group">
+  <div ng-repeat="order in orders | filter: category | orderBy: '-added' track by order.id" class="panel panel-default">
+    <header class="panel-heading clearfix">
+      <%= File.read(Rails.root.join('app/assets/javascripts/templates/_order_title.html')) %>
+      <!-- button for finalizing in tab 0 -->
+      <div class="btn-toolbar pull-right" role="toolbar">
+        <div class="btn-group">
+          <button ng-repeat="status in statuses" ng-click="setStatus(order,status)" ng-class="{'btn-primary':hasStatus(order,status)}" class="btn btn-default">{{status.name}}</button>
+        </div>
+      </div>
+    </header>
+
+    <div ng-class="{in:order.show}" class="panel-collapse collapse">
+      <div class="panel-body">
+        <!-- repeated meals in model -->
+        <%= File.read(Rails.root.join('app/assets/javascripts/templates/_repeat_meals.html')) %>
+      </div>
+    </div>
+  </div>
+</div>
+

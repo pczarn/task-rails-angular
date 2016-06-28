@@ -1,0 +1,5 @@
+<div ng-repeat="meal in order.meals track by meal.id" class="list-group-item">
+  {{meal.name}}:
+  {{meal.price | currency : ''}} zł
+  by {{meal.user.email}}
+</div>

@@ -7,11 +7,11 @@ app.controller('Main', [
     'CATEGORIES',
     'STATUSES',
     function($scope, $timeout, svc, CATEGORIES, STATUSES) {
+        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+            $scope.activeTab = toState.tabId;
+        });
         $scope.category = function(elem) {
             return elem.status.categoryId == $scope.activeTab;
-        };
-        $scope.setTab = function(idx) {
-            $scope.activeTab = idx;
         };
         $scope.addOrder = function() {
             if(!$scope.newOrder.name || $scope.newOrder.name === '') {
@@ -58,13 +58,10 @@ app.controller('Main', [
         $scope.categories = CATEGORIES;
         $scope.statuses = STATUSES;
         $scope.newOrder = {};
-        // Lists of orders.
-        // don't clone. it's a shared reference.
-        $scope.orders = svc.orders;
-        $scope.setTab(0);
         // Defined globally in layout
         $scope.currentUser = {email: window.appCurrentUserEmail};
         // Load all orders.
         svc.getAll();
+        $scope.orders = svc.orders;
     }
 ]);
