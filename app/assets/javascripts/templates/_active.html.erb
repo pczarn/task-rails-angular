@@ -1,7 +1,7 @@
 <%= File.read(Rails.root.join('app/assets/javascripts/templates/_add_order.html')) %>
 
 <div class="panel-group">
-  <div ng-repeat="order in orders | filter: category | orderBy: '-added' track by order.id" class="panel panel-default">
+  <div ng-repeat="order in orders | filter: category | orderBy: '-created_at' track by order.id" class="panel panel-default">
     <header class="panel-heading clearfix">
       <%= File.read(Rails.root.join('app/assets/javascripts/templates/_order_title.html')) %>
       <!-- button for finalizing in tab 0 -->

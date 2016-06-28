@@ -9,7 +9,7 @@ app.factory('orders', [
             return {
                 name: order.name,
                 status: order.status.id,
-                created_at: order.added,
+                created_at: order.created_at,
             };
         }
         function fromJson(json) {
@@ -19,7 +19,7 @@ app.factory('orders', [
                 status: STATUSES[json.status],
                 // probably no need for copying
                 meals: angular.copy(json['meals']) || [],
-                added: json.created_at,
+                created_at: json.created_at,
                 show: true,
                 canAddMeal: true,
                 newMeal: {}

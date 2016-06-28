@@ -29,7 +29,7 @@ app.controller('Main', [
             svc.createOrder({
                 name: $scope.newOrder.name,
                 meals: [],
-                added: new Date(),
+                created_at: new Date(),
                 status: STATUSES[statusId]
             });
             $scope.newOrder = {};
