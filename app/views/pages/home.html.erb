@@ -31,6 +31,7 @@
         <div ng-repeat="meal in order.meals" class="list-group-item">
           {{meal.name}}:
           {{meal.price | currency : ''}} zł
+          by {{meal.user.email}}
         </div>
         <!-- horizontal meal input group -->
         <div ng-if="activeTab==0" class="list-group-item">

@@ -45,5 +45,7 @@ app.controller('Main', [
         // don't clone. it's a shared reference.
         $scope.orders = svc.orders;
         $scope.setTab(0);
+        // Defined globally in layout
+        $scope.currentUser = {email: window.appCurrentUserEmail};
     }
 ]);
