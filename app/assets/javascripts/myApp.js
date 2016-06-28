@@ -30,6 +30,6 @@ app.config([
             tabId: 1
         });
 
-        $urlRouterProvider.otherwise('active');
+        $urlRouterProvider.when('', '/active');
     }
 ])
