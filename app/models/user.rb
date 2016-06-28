@@ -3,6 +3,6 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :omniauthable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         omniauth_providers: [:github, :google_oauth2]
+         omniauth_providers: [:github, :facebook]
   has_many :meals
 end
