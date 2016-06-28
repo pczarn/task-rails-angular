@@ -62,3 +62,5 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 
 gem 'angular_rails_csrf'
+
+gem 'oj'

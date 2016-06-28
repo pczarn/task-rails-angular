@@ -1,3 +1,5 @@
+require 'oj'
+
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
@@ -5,8 +7,7 @@ class OrdersController < ApplicationController
   # GET /orders.json
   def index
     # Respond with all orders in JSON.
-    # [{id: 1, meals: [{id: 1, user: {email: x}}]}, ...]
-    render json: Order.all
+    render json: Oj.dump(Order.includes(meals: :user).all, mode: :compat)
   end
 
   # GET /orders/1
