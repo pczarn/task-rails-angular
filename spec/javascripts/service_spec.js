@@ -9,7 +9,7 @@ describe('the app service', function() {
         angular.mock.inject(function getDeps(orders) {
             ordersService = orders;
         });
-        this.orders = ordersService;
+        this.svc = ordersService;
     });
 
     beforeEach(inject(function(_$httpBackend_) {
@@ -37,38 +37,38 @@ describe('the app service', function() {
     }));
 
     it('should load orders', function() {
-        var allOrders = this.orders.getAll();
-        expect(this.orders.orders).toEqual([]);
+        var allOrders = this.svc.getAll();
+        expect(this.svc.orders).toEqual([]);
     });
 
     it('should add an order', function() {
-        this.orders.createOrder({
+        this.svc.createOrder({
             name: orderName,
             status: {id: orderStatus},
-            added: new Date()
+            created_at: new Date()
         });
         $httpBackend.flush();
-        expect(this.orders.orders.length).toEqual(1);
-        expect(this.orders.orders[0].name).toEqual(orderName);
-        expect(this.orders.orders[0].status.id).toEqual(orderStatus);
+        expect(this.svc.orders.length).toEqual(1);
+        expect(this.svc.orders[0].name).toEqual(orderName);
+        expect(this.svc.orders[0].status.id).toEqual(orderStatus);
     });
 
     it('should update an order and restore it', function() {
-        this.orders.createOrder({
+        this.svc.createOrder({
             name: orderName,
             status: {id: orderStatus},
-            added: new Date()
+            created_at: new Date()
         });
         $httpBackend.flush();
-        this.orders.orders[0].status.id = 'delivered';
-        this.orders.updateStatus(this.orders.orders[0]);
-        this.orders.orders = [];
+        this.svc.orders[0].status.id = 'delivered';
+        this.svc.updateStatus(this.svc.orders[0]);
+        this.svc.orders = [];
         // restore
-        this.orders.getAll();
+        this.svc.getAll();
         $httpBackend.flush();
         // finally test
-        expect(this.orders.orders.length).toEqual(1);
-        expect(this.orders.orders[0].name).toEqual(orderName);
-        expect(this.orders.orders[0].status.id).toEqual('delivered');
+        expect(this.svc.orders.length).toEqual(1);
+        expect(this.svc.orders[0].name).toEqual(orderName);
+        expect(this.svc.orders[0].status.id).toEqual('delivered');
     });
 });

@@ -1,6 +1,6 @@
 var app = angular.module('assignment');
 
-app.factory('orders', [
+app.factory('orderService', [
     '$http',
     'STATUSES',
     function($http, STATUSES) {
@@ -31,7 +31,7 @@ app.factory('orders', [
         var svc = {
             orders: []
         };
-        svc.getAll = function() {
+        svc.getAllOrders = function() {
             return $http.get('/orders.json').success(function(data) {
                 for(var i=0; i<data.length; i++) {
                     svc.orders.push(fromJson(data[i]));

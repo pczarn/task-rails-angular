@@ -3,7 +3,7 @@ var app = angular.module('assignment');
 app.controller('Main', [
     '$scope',
     '$timeout',
-    'orders',
+    'orderService',
     'CATEGORIES',
     'STATUSES',
     function($scope, $timeout, svc, CATEGORIES, STATUSES) {
@@ -61,7 +61,7 @@ app.controller('Main', [
         // Defined globally in layout
         $scope.currentUser = {email: window.appCurrentUserEmail};
         // Load all orders.
-        svc.getAll();
+        svc.getAllOrders();
         $scope.orders = svc.orders;
     }
 ]);
