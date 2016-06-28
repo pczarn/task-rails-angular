@@ -26,7 +26,7 @@ app.controller('Main', [
                 }
             }
             var statusId = CATEGORIES[$scope.activeTab].defaultStatusId;
-            svc.create({
+            svc.createOrder({
                 name: $scope.newOrder.name,
                 meals: [],
                 added: new Date(),

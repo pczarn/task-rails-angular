@@ -2,23 +2,10 @@ var app = angular.module('assignment');
 
 app.factory('orders', [
     '$http',
+    '$q',
     'STATUSES',
-    function($http, STATUSES) {
-        var svc = {
-            orders: [
-                // active
-                {
-                    name: 'x',
-                    meals: [{
-                        name: 'y',
-                        price: 1.1
-                    }],
-                    added: new Date(),
-                    show: true,
-                    status: {id:'active', categoryId:0}
-                }
-            ]
-        };
+    function($http, $q, STATUSES) {
+        // define functions
         function toJson(order) {
             return {
                 name: order.name,
@@ -31,6 +18,7 @@ app.factory('orders', [
                 id: json.id,
                 name: json.name,
                 status: STATUSES[json.status],
+                // probably no need for copying
                 meals: angular.copy(json['meals']) || [],
                 added: json.created_at,
                 show: true,
@@ -39,6 +27,11 @@ app.factory('orders', [
             };
             return order;
         }
+
+        // build service
+        var svc = {
+            orders: []
+        };
         svc.getAll = function() {
             return $http.get('/orders.json').success(function(data) {
                 for(var i=0; i<data.length; i++) {
@@ -46,17 +39,29 @@ app.factory('orders', [
                 }
             })
         };
-        svc.create = function(order) {
-            return $http.post('/orders.json', toJson(order)).success(function(data) {
+        svc.createOrder = function(order) {
+            var d = $q.defer();
+            $http.post('/orders.json', toJson(order)).success(function(data) {
                 var order = fromJson(data);
                 svc.orders.push(order);
+                d.resolve(order);
+            })
+            .error(function() {
+                d.reject();
             });
+            return d.promise;
         };
         svc.createMeal = function(order, meal, currentUser) {
-            return $http.post('/orders/' + order.id + '/meals.json', meal).success(function(data) {
-                data.user = currentUser;
-                order.meals.push(data);
+            var d = $q.defer();
+            $http.post('/orders/' + order.id + '/meals.json', meal).success(function(meal) {
+                meal.user = currentUser;
+                order.meals.push(meal);
+                d.resolve(meal);
+            })
+            .error(function() {
+                d.reject();
             });
+            return d.promise;
         };
         svc.updateStatus = function(order) {
             $http.put('/orders/' + order.id + '.json', {status: order.status.id});
