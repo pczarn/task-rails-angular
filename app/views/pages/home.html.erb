@@ -1,4 +1,5 @@
 <form ng-submit="addOrder()" ng-if="activeTab==0" class="form-horizontal">
+  <!-- nested container, wrong? -->
   <div class="form-group container">
     <div class="input-group col-sm-4">
       <input type="text" ng-model="newOrder.name" class="form-control" placeholder="Restaurant name">
@@ -48,7 +49,7 @@
         <!-- horizontal meal input group -->
         <div ng-if="activeTab==0" class="list-group-item">
           <form ng-submit="addMeal(order)" class="form-horizontal" role="form">
-            <div ng-class="{error:order.error}" class="form-group container">
+            <div ng-class="{error:order.error}" class="form-group container no-margin-b">
               <div class="input-group col-sm-6">
                 <span class="input-group-addon">Meal name</span>
                 <input type="text" ng-model="order.newMeal.name" required class="form-control">
