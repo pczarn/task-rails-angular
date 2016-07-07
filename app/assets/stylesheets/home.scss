@@ -16,6 +16,10 @@
     margin-left: 10px;
 }
 
-.no-margin-b {
+// no margin between form-group and panel
+// Correct, but doesn't work in bootstrap 3
+// @form-group-margin-bottom: 0px;
+
+.no-margin-bottom {
     margin-bottom: 0 !important;
 }
